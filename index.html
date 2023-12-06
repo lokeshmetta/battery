@@ -14,18 +14,31 @@
   <audio id="alertSound" src="krishna_flute.mp3"></audio>
 
   <script>
+    let soundPlaying = false;
+
     // Check for battery status
     navigator.getBattery().then(battery => {
       function updateBatteryStatus() {
         document.getElementById('batteryLevel').textContent = `Battery Level: ${Math.floor(battery.level * 100)}%`;
-        
-        if (battery.charging && battery.level >= 0.85) {
-          // Alert the user when battery level reaches 90% while charging
-          alert('Battery level reached 90%!');
 
-          // Play the alert sound
-          var sound = document.getElementById('alertSound');
-          sound.play();
+        if (battery.charging && battery.level >= 0.85) {
+          // Alert the user when battery level reaches 85% while charging
+          alert('Battery level reached 85%!');
+
+          // Play the alert sound if not already playing
+          if (!soundPlaying) {
+            var sound = document.getElementById('alertSound');
+            sound.play();
+            soundPlaying = true;
+          }
+        } else {
+          // Stop the sound if charging stops or battery level is below 85%
+          if (soundPlaying) {
+            var sound = document.getElementById('alertSound');
+            sound.pause();
+            sound.currentTime = 0;
+            soundPlaying = false;
+          }
         }
       }
 
