@@ -25,14 +25,14 @@ self.addEventListener('fetch', event => {
 
 function showBatteryNotification() {
   self.registration.showNotification('Battery Alert', {
-    body: 'Battery level reached 85% while charging!',
-    icon: '192.png' // Replace with your icon file name (battery-icon.png)
+    body: 'Battery level reached 90% while charging!',
+    icon: 'battery-icon.png' // Replace with your icon file name (battery-icon.png)
   });
 }
 
 function checkBatteryAndNotify() {
   navigator.getBattery().then(battery => {
-    if (battery.charging && battery.level >= 0.85) {
+    if (battery.charging && battery.level >= 0.9) {
       showBatteryNotification();
     }
   });
