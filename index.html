@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Battery Alert</title>
   <link rel="manifest" href="manifest.json">
+
 </head>
 <body>
   <h1>Battery Alert</h1>
   <p id="batteryLevel">Battery Level: </p>
+
+  <audio id="alertSound" src="sound-file.mp3"></audio>
 
   <script>
     // Check for battery status
@@ -16,9 +19,13 @@
       function updateBatteryStatus() {
         document.getElementById('batteryLevel').textContent = `Battery Level: ${Math.floor(battery.level * 100)}%`;
         
-        if (battery.charging && battery.level >= 0.51) {
+        if (battery.charging && battery.level >= 0.9) {
           // Alert the user when battery level reaches 90% while charging
           alert('Battery level reached 90%!');
+
+          // Play the alert sound
+          var sound = document.getElementById('alertSound');
+          sound.play();
         }
       }
 
@@ -46,4 +53,4 @@
     }
   </script>
 </body>
-</html
+</html>
