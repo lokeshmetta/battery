@@ -19,7 +19,7 @@
       function updateBatteryStatus() {
         document.getElementById('batteryLevel').textContent = `Battery Level: ${Math.floor(battery.level * 100)}%`;
         
-        if (battery.charging && battery.level >= 0.60) {
+        if (battery.charging && battery.level >= 0.85) {
           // Alert the user when battery level reaches 90% while charging
           alert('Battery level reached 90%!');
 
