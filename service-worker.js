@@ -1,10 +1,10 @@
 const CACHE_NAME = 'battery-alert-cache-v1';
 const urlsToCache = [
   '/',
-  'index.html',
-  'krishna_flute.mp3',
-  '192.png',
-   '512.png'// Replace with your audio file path
+  '/index.html',
+  '/krishna_flute.mp3',
+  '/192.png',
+   '/512.png'// Replace with your audio file path
 ];
 
 self.addEventListener('install', event => {
