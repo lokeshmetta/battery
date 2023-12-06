@@ -25,7 +25,7 @@
 
         batteryLevel.textContent = `Battery Level: ${Math.floor(battery.level * 100)}%`;
         
-        if (battery.charging && battery.level >= 0.85) {
+        if (battery.charging && battery.level == 0.85) {
           // Alert the user when battery level reaches 85% while charging
           alert('Battery level reached 85%!');
 
