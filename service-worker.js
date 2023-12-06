@@ -2,9 +2,9 @@ const CACHE_NAME = 'battery-alert-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/your-other-files.css',
-  '/your-scripts.js',
-  '/your-images.png',
+  '/512.png',
+
+  '/192.png',
   '/your-sound-file.mp3', // Include your sound file here if needed
   // Add other files that you want to cache for offline use
 ];
