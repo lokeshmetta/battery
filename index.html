@@ -10,6 +10,7 @@
 <body>
   <h1>Battery Alert</h1>
   <p id="batteryLevel">Battery Level: </p>
+  <p id="chargingStatus">Charging Status: </p>
 
   <audio id="alertSound" src="krishna_flute.mp3"></audio>
 
@@ -19,11 +20,14 @@
     // Check for battery status
     navigator.getBattery().then(battery => {
       function updateBatteryStatus() {
-        document.getElementById('batteryLevel').textContent = `Battery Level: ${Math.floor(battery.level * 100)}%`;
+        const batteryLevel = document.getElementById('batteryLevel');
+        const chargingStatus = document.getElementById('chargingStatus');
 
+        batteryLevel.textContent = `Battery Level: ${Math.floor(battery.level * 100)}%`;
+        
         if (battery.charging && battery.level >= 0.85) {
           // Alert the user when battery level reaches 85% while charging
-          //alert('Battery level reached 85%!');
+          alert('Battery level reached 85%!');
 
           // Play the alert sound if not already playing
           if (!soundPlaying) {
@@ -39,6 +43,13 @@
             sound.currentTime = 0;
             soundPlaying = false;
           }
+        }
+
+        // Update charging status
+        if (battery.charging) {
+          chargingStatus.textContent = 'Charging Status: Charging';
+        } else {
+          chargingStatus.textContent = 'Charging Status: Not Charging';
         }
       }
 
