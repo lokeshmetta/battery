@@ -3,8 +3,8 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/krishna_flute.mp3',
-  '/192.png',
-   '/512.png'// Replace with your audio file path
+  '/192.png', // Replace with the correct filename for your icon file (192.png)
+  '/512.png'  // Replace with the correct filename for your icon file (512.png)
 ];
 
 self.addEventListener('install', event => {
@@ -23,19 +23,23 @@ self.addEventListener('fetch', event => {
   );
 });
 
+function showBatteryNotification() {
+  self.registration.showNotification('Battery Alert', {
+    body: 'Battery level reached 85% while charging!',
+    icon: '192.png' // Replace with your icon file name (battery-icon.png)
+  });
+}
+
 function checkBatteryAndNotify() {
   navigator.getBattery().then(battery => {
     if (battery.charging && battery.level >= 0.85) {
-      self.registration.showNotification('Battery Alert', {
-        body: 'Battery level reached 85% while charging!',
-        icon: 'battery-icon.png' // Replace with your icon path
-      });
+      showBatteryNotification();
     }
   });
 }
 
 // Schedule the task to run periodically (adjust the interval as needed)
-setInterval(checkBatteryAndNotify, 60000); // Check every minute
+setInterval(checkBatteryAndNotify, 300000); // Check every 5 minutes (300,000 milliseconds)
 
 self.addEventListener('install', event => {
   event.waitUntil(self.skipWaiting());
@@ -43,4 +47,10 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil(self.clients.claim());
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  // Add custom handling when the user clicks on the notification
+  // For example, open a specific page or perform an action
 });
