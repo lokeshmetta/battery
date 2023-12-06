@@ -1,66 +1,46 @@
 const CACHE_NAME = 'battery-alert-cache-v1';
 const urlsToCache = [
   '/',
-  '/index.html',
-  '/512.png',
-
-  '/192.png',
-  '/your-sound-file.mp3', // Include your sound file here if needed
-  // Add other files that you want to cache for offline use
+  'index.html',
+  'krishna_flute.mp3',
+  '192.png',
+   '512.png'// Replace with your audio file path
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(urlsToCache);
+    })
   );
 });
 
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-
-        // Clone the request to use it both in cache and fetch
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest)
-          .then(response => {
-            // Check if we received a valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-
-            // Clone the response to cache it
-            const responseToCache = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(event.request, responseToCache);
-              });
-
-            return response;
-          });
-      })
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
   );
 });
 
+function checkBatteryAndNotify() {
+  navigator.getBattery().then(battery => {
+    if (battery.charging && battery.level >= 0.85) {
+      self.registration.showNotification('Battery Alert', {
+        body: 'Battery level reached 85% while charging!',
+        icon: 'battery-icon.png' // Replace with your icon path
+      });
+    }
+  });
+}
+
+// Schedule the task to run periodically (adjust the interval as needed)
+setInterval(checkBatteryAndNotify, 60000); // Check every minute
+
+self.addEventListener('install', event => {
+  event.waitUntil(self.skipWaiting());
+});
+
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.filter(cacheName => {
-          return cacheName !== CACHE_NAME;
-        }).map(cacheName => {
-          return caches.delete(cacheName);
-        })
-      );
-    })
-  );
+  event.waitUntil(self.clients.claim());
 });
