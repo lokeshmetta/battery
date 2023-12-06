@@ -11,7 +11,7 @@
   <h1>Battery Alert</h1>
   <p id="batteryLevel">Battery Level: </p>
 
-  <audio id="alertSound" src="sound-file.mp3"></audio>
+  <audio id="alertSound" src="krishna_flute.mp3"></audio>
 
   <script>
     // Check for battery status
@@ -19,7 +19,7 @@
       function updateBatteryStatus() {
         document.getElementById('batteryLevel').textContent = `Battery Level: ${Math.floor(battery.level * 100)}%`;
         
-        if (battery.charging && battery.level >= 0.9) {
+        if (battery.charging && battery.level >= 0.60) {
           // Alert the user when battery level reaches 90% while charging
           alert('Battery level reached 90%!');
 
